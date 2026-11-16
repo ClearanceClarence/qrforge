@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Try qrforge in the browser: style a QR code, check that it scans, and copy the code.">
+    <title>qrforge playground</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7'%3E%3Cpath fill-rule='evenodd' fill='%234338ca' d='M0 0h7v7H0zM1 1v5h5V1zM2 2h3v3H2z'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+  <body>
+    <header class="page-header">
+      <div>
+        <h1>qrforge playground</h1>
+        <p>Style a QR code, see whether it still scans, and copy the code. Everything runs in your browser.</p>
+      </div>
+      <nav class="page-links">
+        <a href="https://github.com/ClearanceClarence/qrforge">GitHub</a>
+        <code>npm install qrforge</code>
+      </nav>
+    </header>
+
+    <main>
+      <div class="controls">
+        <section>
+          <h2>Content</h2>
+          <div class="button-row">
+            <button type="button" data-content="url">URL</button>
+            <button type="button" data-content="wifi">Wi-Fi</button>
+            <button type="button" data-content="vcard">Contact</button>
+            <button type="button" data-content="kanji">Kanji</button>
+            <button type="button" data-content="long">Long text</button>
+          </div>
+          <label for="text">Text to encode</label>
+          <textarea id="text">https://example.com/qrforge</textarea>
+          <label for="preset">Style preset</label>
+          <select id="preset">
+            <option value="">Choose a preset…</option>
+          </select>
+        </section>
+
+        <details open>
+          <summary>Dots</summary>
+          <div class="row">
+            <div>
+              <label for="dots">Shape</label>
+              <select id="dots"></select>
+            </div>
+            <div>
+              <label for="colorMode">Color mode</label>
+              <select id="colorMode">
+                <option value="solid">Solid</option>
+                <option value="linear">Linear gradient</option>
+                <option value="radial">Radial gradient</option>
+                <option value="palette">Palette</option>
+              </select>
+            </div>
+          </div>
+          <label for="scale">Size <span id="scaleVal"></span></label>
+          <input type="range" id="scale" min="0.3" max="1" step="0.05" value="1">
+          <label for="variance">Size variance <span id="varianceVal"></span></label>
+          <input type="range" id="variance" min="0" max="0.6" step="0.05" value="0">
+          <label for="color">Colors</label>
+          <div class="row4">
+            <input type="color" id="color" value="#1e1b4b" aria-label="Color 1">
+            <input type="color" id="color2" value="#0f766e" aria-label="Color 2">
+            <input type="color" id="color3" value="#be123c" aria-label="Color 3">
+            <input type="color" id="color4" value="#6d28d9" aria-label="Color 4">
+          </div>
+          <div id="angleWrap">
+            <label for="angle">Gradient angle <span id="angleVal"></span>°</label>
+            <input type="range" id="angle" min="0" max="360" step="5" value="45">
+          </div>
+        </details>
+
+        <details open>
+          <summary>Finder patterns</summary>
+          <div class="row">
+            <div>
+              <label for="finder">Frame</label>
+              <select id="finder">
+                <option value="">Auto</option>
+              </select>
+            </div>
+            <div>
+              <label for="finderInner">Center</label>
+              <select id="finderInner">
+                <option value="">Auto</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label class="check"><input type="checkbox" id="useFinderColor"> Frame color</label>
+              <input type="color" id="finderColor" value="#7c3aed" aria-label="Frame color">
+            </div>
+            <div>
+              <label class="check"><input type="checkbox" id="useFinderInnerColor"> Center color</label>
+              <input type="color" id="finderInnerColor" value="#111827" aria-label="Center color">
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Alignment patterns</summary>
+          <div class="row">
+            <div>
+              <label for="alignment">Style</label>
+              <select id="alignment"></select>
+            </div>
+            <div>
+              <label class="check"><input type="checkbox" id="useAlignmentColor"> Own color</label>
+              <input type="color" id="alignmentColor" value="#b91c1c" aria-label="Alignment color">
+            </div>
+          </div>
+          <p class="note">Only codes of version 2 and up have alignment patterns. Try the "Long text" content.</p>
+        </details>
+
+        <details>
+          <summary>Shape and background</summary>
+          <div class="row">
+            <div>
+              <label for="shape">Outline</label>
+              <select id="shape">
+                <option>square</option>
+                <option>circle</option>
+              </select>
+            </div>
+            <div>
+              <label for="margin">Quiet zone (modules)</label>
+              <input type="number" id="margin" min="0" max="10" value="4">
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label for="bgMode">Background</label>
+              <select id="bgMode">
+                <option value="solid">Solid</option>
+                <option value="linear">Linear gradient</option>
+                <option value="radial">Radial gradient</option>
+                <option value="transparent">Transparent</option>
+              </select>
+            </div>
+            <div>
+              <label for="background">Colors</label>
+              <div class="row">
+                <input type="color" id="background" value="#ffffff" aria-label="Background 1">
+                <input type="color" id="background2" value="#e0e7ff" aria-label="Background 2">
+              </div>
+            </div>
+          </div>
+          <label for="bgRadius">Corner radius <span id="bgRadiusVal"></span></label>
+          <input type="range" id="bgRadius" min="0" max="0.5" step="0.01" value="0">
+        </details>
+
+        <details>
+          <summary>Logo</summary>
+          <input type="file" id="logoFile" class="file-input" accept="image/*" aria-label="Logo image">
+          <div class="button-row">
+            <button type="button" id="sampleLogo">Use a sample logo</button>
+            <button type="button" id="clearLogo">Remove logo</button>
+          </div>
+          <label for="logoSize">Size <span id="logoSizeVal"></span></label>
+          <input type="range" id="logoSize" min="0.05" max="0.4" step="0.01" value="0.22">
+          <label for="logoPad">Padding (modules) <span id="logoPadVal"></span></label>
+          <input type="range" id="logoPad" min="0" max="3" step="0.25" value="0.5">
+          <div class="row">
+            <div>
+              <label for="logoShape">Cleared area</label>
+              <select id="logoShape">
+                <option>square</option>
+                <option>circle</option>
+              </select>
+            </div>
+            <div>
+              <label class="check"><input type="checkbox" id="useLogoBg"> Plate color</label>
+              <input type="color" id="logoBg" value="#ffffff" aria-label="Plate color">
+            </div>
+          </div>
+          <label class="check"><input type="checkbox" id="logoExcavate" checked> Remove modules under the logo</label>
+          <label class="check"><input type="checkbox" id="logoAspect" checked> Match the image's proportions</label>
+        </details>
+
+        <details>
+          <summary>Encoding and output</summary>
+          <div class="row">
+            <div>
+              <label for="ecc">Error correction</label>
+              <select id="ecc">
+                <option value="">Auto</option>
+                <option>L</option>
+                <option>M</option>
+                <option>Q</option>
+                <option>H</option>
+              </select>
+            </div>
+            <div>
+              <label for="mask">Mask pattern</label>
+              <select id="mask">
+                <option value="">Auto</option>
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label for="minVersion">Minimum version</label>
+              <input type="number" id="minVersion" min="1" max="40" value="1">
+            </div>
+            <div>
+              <label for="pngSize">PNG size (px)</label>
+              <input type="number" id="pngSize" min="64" max="4096" value="1024">
+            </div>
+          </div>
+          <label class="check"><input type="checkbox" id="boostEcc" checked> Raise error correction when there is room</label>
+          <label class="check"><input type="checkbox" id="kanji" checked> Use kanji mode when possible</label>
+          <label class="check"><input type="checkbox" id="eci"> Add UTF-8 ECI header</label>
+        </details>
+      </div>
+
+      <div class="results">
+        <section>
+          <h2>Preview</h2>
+          <div id="preview"></div>
+          <p id="error" role="alert"></p>
+          <div class="button-row">
+            <button type="button" class="primary" id="dlSvg">Download SVG</button>
+            <button type="button" class="primary" id="dlPng">Download PNG</button>
+            <button type="button" id="copySvg">Copy SVG markup</button>
+          </div>
+        </section>
+
+        <section>
+          <h2>Scan check</h2>
+          <p id="status" role="status"></p>
+          <ul id="issues"></ul>
+          <button type="button" id="fix" class="hidden">Auto-fix this style</button>
+          <ul id="fixes"></ul>
+          <dl id="facts"></dl>
+        </section>
+
+        <section>
+          <h2>Code for this style</h2>
+          <pre id="code"></pre>
+          <div class="button-row">
+            <button type="button" id="copyCode">Copy code</button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
