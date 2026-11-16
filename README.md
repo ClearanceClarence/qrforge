@@ -2,6 +2,8 @@
 
 A zero-dependency QR code toolkit for JavaScript and TypeScript: compact encoding, styled SVG and PNG output, and a built-in check that the styled code still scans.
 
+**[Try the playground](https://clearanceclarence.github.io/qrforge/)** to style a code in the browser, see whether it scans, and copy the matching code.
+
 ```sh
 npm install qrforge
 ```
@@ -202,6 +204,10 @@ toDataURL('image/svg+xml', renderSVG(qr))
 Every renderer accepts a string, a `Uint8Array`, or an already encoded `QRCode`.
 
 Encoding options: `ecc`, `boostEcc`, `minVersion`, `maxVersion`, `mask`, `kanji` (default on; used only when every non-ASCII character exists in Shift JIS, so other text is never affected) and `eci` (prefix a UTF-8 ECI header for scanners that need it).
+
+## Playground
+
+The [playground](https://clearanceclarence.github.io/qrforge/) exposes every option with a live preview, the scan check, auto-fix, and SVG and PNG downloads. Its source is in [`docs/`](docs/), and it runs entirely in the browser from a bundled copy of the library.
 
 ## Not included yet
 
